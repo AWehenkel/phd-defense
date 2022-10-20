@@ -14,6 +14,10 @@ body {
   font-size: .7em;
 }
 
+.black-container {
+  background-color: black;
+}
+
 
 
 .footnote {
@@ -35,6 +39,11 @@ body {
 
 .red {
     color: #d11a01;
+}
+
+
+.green {
+    color: #1a7303;
 }
 
 .italic {
@@ -337,7 +346,7 @@ blockquote {
 
 .important {
   display: block;;
-  font-size: 1.4em;
+  font-size: 1.2em;
   background-color: #0f88885c;
   border: 1px solid #333;
   border-radius: 5px;
@@ -364,9 +373,13 @@ blockquote {
 }
 
 .black-slide {
-    background-color: #222;
+    background-color: black;
     color: white;
     border-top: solid 0px;
+}
+
+.black-slide h1{
+  color: white;
 }
 
 
