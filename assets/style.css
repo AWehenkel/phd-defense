@@ -41,6 +41,9 @@ body {
     color: #d11a01;
 }
 
+.white {
+  color: white;
+}
 
 .green {
     color: #1a7303;
@@ -112,9 +115,6 @@ strong {
     font-style: normal;
 }
 
-.katex {
-    color: #1a7082;
-}
 
 .remark-code {
     font-size: 8em;
@@ -283,10 +283,26 @@ td {
     vertical-align: middle;
 }
 
+.section .katex{
+  color:white;
+}
+
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+
 .black-slide {
     background-color: #222;
     color: white;
     border-top: solid 0px;
+}
+
+.black-slide h2{
+    color: white;
 }
 
 .end-slide .remark-slide-number {
@@ -294,7 +310,7 @@ td {
 }
 
 .katex {
-    color: #222 !important;
+    color: #222;
 }
 
 .absolute{
@@ -379,6 +395,10 @@ blockquote {
 }
 
 .black-slide h1{
+  color: white;
+}
+
+.black-slide .katex{
   color: white;
 }
 

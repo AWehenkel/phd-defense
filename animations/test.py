@@ -30,7 +30,7 @@ class MonotonicTransformation(MovingCameraScene):
         t = MathTex(r"z \sim \mathcal{N}(0, 1)", color=BLUE)
         t.next_to(ax, UR, coor_mask=[0.5, 0.5, 0])
 
-        graph = ax.plot(lambda x: 1/np.sqrt(2*math.pi) * np.exp(-x ** 2), x_range=[-3 , 3], use_smoothing=False, color=BLUE)
+        graph = ax.plot(lambda x: 1/np.sqrt(2*math.pi) * np.exp(-x ** 2), x_range=[-3 , 3], use_smoothing=True, color=BLUE)
         ax.insert(1, graph)
         self.play(*[Create(graph), Create(t)], run_time=2.)
         self.wait(5)
@@ -69,8 +69,8 @@ class MonotonicTransformation(MovingCameraScene):
         all_objects = Group(*[graph, graph_mon, ax, dot, t, t_red])
         self.play(all_objects.animate.rotate(-PI/2), t.animate.rotate(0).move_to([4.75, 4.5, 0.]), t_red.animate.rotate(0).move_to([6., 5.5, 0.]))
         self.play(self.camera.frame.animate.set(width=25))
-        t_red_bis = MathTex(r"x = f(z) \sim p_z(f^{-1})(x)) |J_f(f^{-1})(x))|", color=RED).move_to([7.5, 3.5, 0.])
-        self.play(dot.animate.move_to(ax.coords_to_point(0., y)).set_color(RED), Create(t_red_bis))
+        t_red_bis = MathTex(r"x = f(z) \sim p_z(z) |\frac{\partial f(z)}{\partial z}|^{-1}", color=GREEN).move_to([7.5, 3.5, 0.])
+        self.play(dot.animate.move_to(ax.coords_to_point(0., y)).set_color(GREEN), Create(t_red_bis))
         self.play(Create(chart), FadeOut(dot))
         self.play(graph.animate.move_to(ax.coords_to_point(0., -1.2)))
         self.remove(ax)
@@ -99,7 +99,7 @@ class MonotonicTransformation(MovingCameraScene):
             self.play(*[Create(dot) for dot in dots], run_time=1.)
             self.play(*[dot.animate.move_to(ax.coords_to_point(pos[0], pos[1])).set_color(WHITE)
                         for dot, pos in zip(dots, positions_intermediate)], run_time=1.)
-            self.play(*[dot.animate.move_to(ax.coords_to_point(pos[0], pos[1])).set_color(RED)
+            self.play(*[dot.animate.move_to(ax.coords_to_point(pos[0], pos[1])).set_color(GREEN)
                         for dot, pos in zip(dots, positions_final)], run_time=1.)
             self.play(*[FadeOut(dot) for dot in dots], run_time=1.)
 
@@ -107,7 +107,7 @@ class MonotonicTransformation(MovingCameraScene):
             self.play(chart.animate.change_bar_values(bin_count/bin_count.sum(), update_colors=True))
 
             if j == 0:
-                plot_new = chart.plot(lambda x: pdf_after_trans(monotonic_trans_inv(x/20. - .5)) * 0.05, x_range=[0. , 20.], use_smoothing=True, stroke_color=RED)
+                plot_new = chart.plot(lambda x: pdf_after_trans(monotonic_trans_inv(x/20. - .5)) * 0.05, x_range=[0. , 20.], use_smoothing=True, stroke_color=GREEN)
                 self.play(Create(plot_new))
                 #self.play(self.camera.frame.animate.set(width=22))
 
@@ -160,7 +160,7 @@ class UMNN(MovingCameraScene):
                 if cur_sum == layers[cur_layer]:
                     cur_sum = 0
                     cur_layer += 1
-                    anim = [n.animate.set_color(RED) for n in cur_nodes] + [n.animate.set_color(WHITE) for n in prev_nodes]
+                    anim = [n.animate.set_color(GREEN) for n in cur_nodes] + [n.animate.set_color(WHITE) for n in prev_nodes]
                     self.play(*anim, )
                     prev_nodes = cur_nodes
                     cur_nodes = []
@@ -168,13 +168,13 @@ class UMNN(MovingCameraScene):
                 cur_sum += 1
                 cur_nodes.append(graph.vertices[v])
 
-            anim = [n.animate.set_color(RED) for n in cur_nodes] + [n.animate.set_color(WHITE) for n in prev_nodes]
+            anim = [n.animate.set_color(GREEN) for n in cur_nodes] + [n.animate.set_color(WHITE) for n in prev_nodes]
             self.play(*anim)
 
         ax = Axes( x_range=[-2. , 2., .5], y_range=[0. , 1., .5]).scale(.4).next_to(graph, UR, [-1., -1.5, 0.])
         self.play(Create(ax), run_time=5.)
 
-        plot = ax.plot(lambda x: x**2 /3., x_range=[-1.5 , 1.5], use_smoothing=False, color=BLUE)
+        plot = ax.plot(lambda x: x**2 /3., x_range=[-1.5 , 1.5], use_smoothing=True, color=BLUE)
         self.play(Create(plot), run_time=5.)
 
         self.play(self.camera.frame.animate.set(width=26))
@@ -218,13 +218,13 @@ class UMNN(MovingCameraScene):
 
         tracker = ValueTracker(-1.5)
         cur_area = ax.get_area(graph=plot, x_range=(-1.5, tracker.get_value()), color=YELLOW)
-        plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()], use_smoothing=False, color=YELLOW)
+        plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()], use_smoothing=True, color=YELLOW)
 
         all_plots = [plot_bis]
         all_area = [cur_area]
         def update_graph(mob):
             cur_area = mob.get_area(graph=plot, x_range=(-1.5, tracker.get_value()), color=YELLOW)
-            plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()], use_smoothing=False, color=YELLOW)
+            plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()], use_smoothing=True, color=YELLOW)
             self.add(cur_area)
             self.add(plot_bis)
             for a in all_plots.pop():
@@ -520,12 +520,12 @@ class AffineNF(MovingCameraScene):
 
         #update_graph(ax)
         graph_mon.add_updater(update_graph)
-        self.play(a.animate.set_color(RED))
+        self.play(a.animate.set_color(GREEN))
         self.play(tracker_a.animate.set_value(float(2.)), run_time=2)
         self.play(tracker_a.animate.set_value(float(-2)), run_time=2)
         self.play(tracker_a.animate.set_value(float(.5)), run_time=1)
         self.play(a.animate.set_color(WHITE))
-        self.play(b.animate.set_color(RED))
+        self.play(b.animate.set_color(GREEN))
         self.play(tracker_b.animate.set_value(float(2.)), run_time=2)
         self.play(tracker_b.animate.set_value(float(-2)), run_time=2)
         self.play(tracker_b.animate.set_value(float(-.75)), run_time=1)
@@ -537,7 +537,7 @@ class AffineNF(MovingCameraScene):
         t = MathTex(r"z \sim \mathcal{N}(0, 1)", color=BLUE)
         t.next_to(ax_gaussian, UR, coor_mask=[0.5, -.5, 0])
 
-        graph = ax_gaussian.plot(lambda x: 1/np.sqrt(2*math.pi) * np.exp(-x ** 2), x_range=[-3 , 3], use_smoothing=False, color=BLUE)
+        graph = ax_gaussian.plot(lambda x: 1/np.sqrt(2*math.pi) * np.exp(-x ** 2), x_range=[-3 , 3], use_smoothing=True, color=BLUE)
         self.play(*[Create(graph), Create(t)], run_time=2.)
         self.wait(1)
 
@@ -568,32 +568,31 @@ class AffineNF(MovingCameraScene):
                   aff_group.animate.rotate(0).move_to([6., 5.5, 0.]))
         self.play(self.camera.frame.animate.set(width=25))
 
-        t_red_bis = MathTex(r"x = f(z)", color=RED).next_to(b, DOWN)#.move_to([7.5, 3.5, 0.])
-        t_red_bis_bis = MathTex(r"x \sim \mathcal{N}(b, a^2)", color=RED).next_to(t_red_bis, DOWN)
-        self.play(dot.animate.move_to(ax.coords_to_point(0., y)).set_color(RED), Create(t_red_bis))
+        t_red_bis = MathTex(r"x = f(z)", color=GREEN).next_to(b, DOWN)#.move_to([7.5, 3.5, 0.])
+        t_red_bis_bis = MathTex(r"x \sim \mathcal{N}(b, a^2)", color=GREEN).next_to(t_red_bis, DOWN)
+        self.play(dot.animate.move_to(ax.coords_to_point(0., y)).set_color(GREEN), Create(t_red_bis))
         self.play(FadeOut(dot), Create(t_red_bis_bis))
 
         self.play(*[graph.animate.move_to([-5., 0. , 0.])])
 
         graph = ax.plot(lambda x: 3/np.sqrt(2*math.pi*tracker_a.get_value()**2) * np.exp(-((x - tracker_b.get_value())/tracker_a.get_value()) ** 2), x_range=[-2 , 2],
-                                 use_smoothing=True, color=RED).rotate(PI/2).move_to(ax.coords_to_point(2, 0),
+                                 use_smoothing=True, color=GREEN).rotate(PI/2).move_to(ax.coords_to_point(2, 0),
                                                                                       coor_mask=[0, 1, 0])
         self.play(*[Create(graph)], run_time=2.)
 
 
         def update_graph_bis(mob):
             new_graph = ax.plot(lambda x: 3/np.sqrt(2*math.pi*tracker_a.get_value()**2) * np.exp(-((x - tracker_b.get_value())/tracker_a.get_value()) ** 2), x_range=[-2 , 2],
-                                 use_smoothing=False, color=RED).rotate(PI/2).move_to(ax.coords_to_point(2, 0),
+                                 use_smoothing=True, color=GREEN).rotate(PI/2).move_to(ax.coords_to_point(2, 0),
                                                                                       coor_mask=[0, 1, 0])
             mob.become(new_graph)
 
         graph.add_updater(update_graph_bis)
-        self.play(a.animate.set_color(RED))
-        self.play(tracker_a.animate.set_value(float(1.)), run_time=2)
-        self.play(tracker_a.animate.set_value(float(-1)), run_time=2)
+        self.play(a.animate.set_color(GREEN))
+        self.play(tracker_a.animate.set_value(float(2.)), run_time=2)
         self.play(tracker_a.animate.set_value(float(.5)), run_time=1)
         self.play(a.animate.set_color(WHITE))
-        self.play(b.animate.set_color(RED))
+        self.play(b.animate.set_color(GREEN))
         self.play(tracker_b.animate.set_value(float(1.)), run_time=2)
         self.play(tracker_b.animate.set_value(float(-1)), run_time=2)
         self.play(tracker_b.animate.set_value(float(-.75)), run_time=1)

@@ -8,6 +8,12 @@ count: True
 
 .absolute.top.left.width-40[![](figures/fnrs.png)]
 .absolute.top.right.width-15[![](figures/ulg.png)]
+
+???
+
+Dear members of the jury, family, friends and/or colleagues. These are non-exclusive categories.
+It is my pleasure and pressure to present my thesis entitled Inductive Bias in Deep Probabilistic Modelling.
+
 ---
 # The Story Behind
 
@@ -15,9 +21,9 @@ count: True
 
 ???
 When I was younger I wanted to become neurologist,
-I wanted to understand how the brain works and repair it if possible.
+I wanted to understand how the brain works and understand what makes us able to think.
 Eventually, I gave up and found that I was more in love with maths than biology at the school.
-But then, in preparing this presentation I found there was strong connections between my childhood's dreamjob and the research I did during this PhD. At a high level the goal is the same, understand how things can be intelligent and can act so in the real-world. When I was a child the reason was to help people with brain illness, now it is to create robot that will replace us.. I am joking. Hopefully, artificial intelligence can have a positive impact on the real-world.
+But then, in preparing this presentation I found there was strong connections between my childhood's dreamjob and the research I did during this PhD. At a high level the goal is the same, understand how things can be intelligent and can act so in the real-world.
 
 ---
 # Context
@@ -40,6 +46,8 @@ Now for the next 55 minutes of presentation, my promise is to present some work 
 ]
 
 ???
+This presentation is organized as follows.
+
 To this purpose, I will first  spend some time to abstract what is intelligence, how we human, make informed choice in order to achieve a goal.
 
 - One key aspect for intelligence are models. I will explain why this is the case and how we use them.
@@ -64,6 +72,8 @@ count: false
 ]
 
 ???
+Let us suppose someone comes to you, he throws a ball up in the air, and tells you "catch the ball I will give you 1000$".
+
 - This could really happen to you if you walk in the street. I hope 1000$ motivates you to listen for the next hour.
 
 - You look at the ball and then you identify the horizontal speed of the ball in order
@@ -80,7 +90,8 @@ class: black-slide
 </video>]
 ???
 
-We can automate this reasoning by considering newton's law and predict where the ball shall go.
+So basically what you do is to build a simplified representation of the movement of the ball in order to predict
+about what is important, the horizontal position of the ball when it will touch the ground.
 
 ---
 
@@ -100,7 +111,7 @@ We can automate this reasoning by considering newton's law and predict where the
 .important[.center[Draw logical consequences from assumptions.]]
 
 .grid[.kol-6-12[
-.width-100[![](figures/inference_model.png)]
+.width-100[![](figures/f_ma.png)]
 ]
 .kol-6-12[
 .center[
@@ -112,6 +123,11 @@ We can automate this reasoning by considering newton's law and predict where the
 
 ???
 
+- A model becomes useful when we draw logical consequences.
+- For instance...
+- And so if we provide a model and an algorithm for inference into a computer, it can reason.
+
+
 Here the assumptions are:
 - The newton's law is accurate enough to describe the evolution of the system.
 - The initial evolution of the ball
@@ -122,13 +138,14 @@ In order to predict the ball position at height for which we will be able to cat
 We must performe inference. That is we must predict the ball horizontal speed and maybe also its vertical speed
 in order to chose if we have to run or just walking is fine. If we neglect the wind this means...
 
+
+
 ---
 
 # Model Discovery
 
 .center.circle.width-40[![](figures/Gallilee.jpeg)]
---
-count: false
+
 .center[
 Galileo Galilei (1564 - 1642)
 ]
@@ -146,26 +163,29 @@ Clearly, the goal is to write down in formal terms what is happening when we sol
 .center.width-100[![](figures/Box_loop.png)]
 
 ---
-# Box's Loop in Science
+# Atomic Discovery
 .avatars[.circle.width-100[![](figures/John-Dalton.jpg)]]
 
 ## The first scientific atomic model: *John Dalton in 1803.*
 
 .center.width-80[![](figures/dalton_water.png)]
 
+???
+- Pose that matter is at some point discrete and that molecules are made of fixed number of fundamental atoms.
+- Allows to predict how many grams of Oxygen you need to consume a certain quantity of hydrogen and create water for instance.Ò
+
 --
 
 .center.width-80[![](figures/thomson_experiment.gif)]
 
 ???
-1803
-
-Fails to explain that atoms seems made of positive and negative charges that are observed when we bend
+- Does not explain why some atoms react together and others not.
+- Fails to explain that atoms seems made of positive and negative charges that are observed when we bend
 
 
 
 ---
-# Box's Loop in Science
+# Atomic Discovery
 .avatars[.circle.width-100[![](figures/jj-thomson.jpeg)]]
 
 ## Electrons and protons: *JJ Thomson in 1897.*
@@ -173,16 +193,23 @@ Fails to explain that atoms seems made of positive and negative charges that are
 .grid[
 .kol-4-12[.center.width-90[![](figures/thomson_model.jpg)]
 ]]
+
+???
+Fail to predict Ernest Rutherford experiments with a gold foil.
+
 ---
 count: false
 
-# Box's Loop in Science
+# Atomic Discovery
 .avatars[.circle.width-100[![](figures/jj-thomson.jpeg)]]
 
 ## Electrons and protons: *JJ Thomson in 1897.*
 
 .grid[
-.kol-4-12[.center.width-90[![](figures/thomson_model.jpg)]
+.kol-4-12[
+.center.width-90[![](figures/thomson_model.jpg)]
+
+.center.width-70[![](figures/f2.png)]
 ]
 .kol-8-12[.center.width-100[![](figures/rutheford_experiment.png)]
 ]
@@ -192,7 +219,7 @@ count: false
 1897
 plum pudding model
 ---
-# Box's Loop in Science
+# Atomic Discovery
 .avatars[.circle.width-100[![](figures/Ernest-Rutherford.jpeg)]]
 
 ## The nucleus: *Ernest Rutherford in 1911.*
@@ -204,7 +231,7 @@ plum pudding model
 ---
 count: false
 
-# Box's Loop in Science
+# Atomic Discovery
 .avatars[.circle.width-100[![](figures/Ernest-Rutherford.jpeg)]]
 
 ## The nucleus: *Ernest Rutherford in 1911.*
@@ -216,7 +243,7 @@ count: false
 1911
 
 ---
-# Box's Loop in Science
+# Atomic Discovery
 .avatars[.circle.width-100[![](figures/Niels_Bohr.jpeg)]]
 
 ## Discrete energy levels: *Niels Bohr in 1913.*
@@ -235,6 +262,20 @@ count: false
 Quantization of atoms.
 allows to predict the properties of the atoms. It explains the Mendeleiv table.
 1915
+
+---
+# Box's Loop in Science
+.center.grid[
+.kol-2-12[.circle.stretch[![](figures/John-Dalton.jpg)]]
+.kol-2-12[.circle.stretch[![](figures/jj-thomson.jpeg)]]
+.kol-2-12[.circle.stretch[![](figures/Ernest-Rutherford.jpeg)]]
+.kol-2-12[.circle.stretch[![](figures/Niels_Bohr.jpeg)]]
+.kol-2-12[.circle.stretch[![](figures/Erwin-Schrödinger.jpeg)]]
+.kol-2-12[.circle.stretch[![](figures/who.jpeg)]]
+]
+
+.center.width-90[![](figures/Box_loop.png)]
+
 
 ---
 # Box's Loop in Science
@@ -324,42 +365,12 @@ count: false
 .center.width-100[![](figures/ukulele.jpeg)]
 ]
 .kol-4-12[
-]
-.kol-4-12[
-]
-]]
----
-count: false
-# The curse of dimensionality
-
-.center.width-100[.grid[
-.kol-4-12[
-.center.width-100[![](figures/curse_1.jpg)]
-.center.width-100[![](figures/ukulele.jpeg)]
-]
-.kol-4-12[
-.center.width-100[![](figures/curse_2.jpg)]
-.center.width-100[![](figures/guitar.webp)]
-]
-.kol-4-12[
-]
-]]
----
-count: false
-# The curse of dimensionality
-
-.center.width-100[.grid[
-.kol-4-12[
-.center.width-100[![](figures/curse_1.jpg)]
-.center.width-100[![](figures/ukulele.jpeg)]
-]
-.kol-4-12[
 .center.width-100[![](figures/curse_2.jpg)]
 .center.width-100[![](figures/guitar.webp)]
 ]
 .kol-4-12[
 .center.width-100[![](figures/curse_3.jpg)]
-.center.width-100[![](figures/homme-orchestre.png)]
+.center.width-10[![](figures/homme-orchestre.png)]
 ]
 ]]
 ???
@@ -374,10 +385,47 @@ class: section
 # Deep Probabilistic Modelling
 
 ---
-class: black-slide
+# Deep Probabilistic Modelling
+## Neural Networks
 
+.center.width-100[![](figures/neural-net/neural-net.001.png)]
+
+---
+count: false
+
+
+# Deep Probabilistic Modelling
+## Neural Networks
+.center.width-100[![](figures/neural-net/neural-net.002.png)]
+
+---
+count: false
+
+
+# Deep Probabilistic Modelling
+## Neural Networks
+.center.width-100[![](figures/neural-net/neural-net.003.png)]
+
+---
+count: false
+
+
+# Deep Probabilistic Modelling
+## Neural Networks
+.center.width-100[![](figures/neural-net/neural-net.004.png)]
+
+---
+count: false
+
+
+# Deep Probabilistic Modelling
+## Neural Networks
+.center.width-100[![](figures/neural-net/neural-net.005.png)]
+
+---
+class: black-slide
 # Probabilistic Modelling
-.important[Probabilistic models embed notions of randomness or uncertainty with the language of probability.]
+.important[Model randomness or uncertainty with the language of probability.]
 
 <video frameborder="0" width=90%  controls>
   <source src="figures/Newton_2.mp4" type="video/mp4"  controls>
@@ -406,39 +454,6 @@ On the opposite one class of models that have been popular to model the joint pr
 
 One way of representing these models is with a graphical structure that denotes
 independence assumptions we suppose reasonable.
-
----
-# Neural Networks
-
-.center.width-100[![](figures/neural-net/neural-net.001.png)]
-
----
-count: false
-
-# Neural Networks
-
-.center.width-100[![](figures/neural-net/neural-net.002.png)]
-
----
-count: false
-
-# Neural Networks
-
-.center.width-100[![](figures/neural-net/neural-net.003.png)]
-
----
-count: false
-
-# Neural Networks
-
-.center.width-100[![](figures/neural-net/neural-net.004.png)]
-
----
-count: false
-
-# Neural Networks
-
-.center.width-100[![](figures/neural-net/neural-net.005.png)]
 
 ---
 # Deep Probabilistic Models
@@ -717,7 +732,7 @@ count:false
 ---
 class: black-slide
 # Affine Transformations
-
+.center[ $z_i = f\_i(x_i; \mathbf{c}\_i(\mathbf{x}))$]
 .center[<video frameborder="0" width=100% controls loop autoplay>
   <source src="figures/AffineNF.mp4" type="video/mp4"  controls loop autoplay>
 </video>]
@@ -726,6 +741,7 @@ class: black-slide
 
 # Monotonic Transformations
 
+.center[ $z_i = f\_i(x_i; \mathbf{c}\_i(\mathbf{x}))$]
 .center[<video frameborder="0" width=100% controls loop autoplay>
   <source src="figures/MonotonicTransformation.mp4" type="video/mp4"  controls loop autoplay>
 </video>]
@@ -754,7 +770,7 @@ count: false
 --
 count: false
 
-- analyze the expressivity of affine flows.
+- Analyze the expressivity of affine flows.
 
 --
 count: false
