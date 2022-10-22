@@ -69,7 +69,7 @@ class MonotonicTransformation(MovingCameraScene):
         all_objects = Group(*[graph, graph_mon, ax, dot, t, t_red])
         self.play(all_objects.animate.rotate(-PI/2), t.animate.rotate(0).move_to([4.75, 4.5, 0.]), t_red.animate.rotate(0).move_to([6., 5.5, 0.]))
         self.play(self.camera.frame.animate.set(width=25))
-        t_red_bis = MathTex(r"x = f(z) \sim p_z(z) |\frac{\partial f(z)}{\partial z}|^{-1}", color=GREEN).move_to([7.5, 3.5, 0.])
+        t_red_bis = MathTex(r"y = f(z) \sim p_z(z) |\frac{\partial f(z)}{\partial z}|^{-1}", color=GREEN).move_to([6.5, 3.5, 0.])
         self.play(dot.animate.move_to(ax.coords_to_point(0., y)).set_color(GREEN), Create(t_red_bis))
         self.play(Create(chart), FadeOut(dot))
         self.play(graph.animate.move_to(ax.coords_to_point(0., -1.2)))
@@ -145,7 +145,7 @@ class UMNN(MovingCameraScene):
             vertex_config={'radius': 0.20},
         )
 
-        t = MathTex(r"g_{\theta}(x) := \frac{\partial f(x)}{\partial x} > 0", color=BLUE)
+        t = MathTex(r"g_{\theta}(z) := \frac{\partial f_\theta(z)}{\partial z} > 0", color=BLUE)
         t.next_to(graph, UP, coor_mask=[0.5, 1., 0])
         graph.insert(0, t)
 
@@ -193,23 +193,23 @@ class UMNN(MovingCameraScene):
         self.play(Create(ax_bis), self.camera.frame.animate.set(width=28))
 
 
-        t = MathTex(r"\partial f(x) = \int_{-\infty}^{x} g_{\theta}(t) dt", color=YELLOW).next_to(ax_bis, UP, [0., 1., 0.])
+        t = MathTex(r"f_{\theta}(z) = \int_{-\infty}^{z} g_{\theta}(t) dt", color=YELLOW).next_to(ax_bis, UP, [0., 1., 0.])
         self.play(Create(t))
 
 
-
-        text = Tex("UMNN")
-        self.wait(1)
-        all_obj = [ax_bis, t, derivative_group, text, rectangle_derivative]
+        all_obj = [ax_bis, t, derivative_group, rectangle_derivative]
         umnn_group = Group(*all_obj)
 
         self.play(umnn_group.animate.move_to([0. , 0., 0.]))
 
+        text = Tex("UMNN")
+        self.play()
 
-        self.play(Create(text.next_to(t, UL, [.5, .5, 0.])))
+        all_obj.append(text)
+        umnn_group = Group(*all_obj)
 
         rectangle_umnn = SurroundingRectangle(umnn_group, buff=.4)
-        self.play(Create(rectangle_umnn))
+        self.play(*[Create(rectangle_umnn), Create(text.next_to(t, UL, [.5, .5, 0.]))])
 
         decimal = DecimalNumber(0, num_decimal_places=3, include_sign=True, unit=None).move_to(ax_bis.coords_to_point(2., 2.))
 
@@ -220,24 +220,22 @@ class UMNN(MovingCameraScene):
         cur_area = ax.get_area(graph=plot, x_range=(-1.5, tracker.get_value()), color=YELLOW)
         plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()], use_smoothing=True, color=YELLOW)
 
-        all_plots = [plot_bis]
-        all_area = [cur_area]
-        def update_graph(mob):
-            cur_area = mob.get_area(graph=plot, x_range=(-1.5, tracker.get_value()), color=YELLOW)
-            plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()], use_smoothing=True, color=YELLOW)
-            self.add(cur_area)
-            self.add(plot_bis)
-            for a in all_plots.pop():
-                self.remove(a)
-            all_plots.append(plot_bis)
-            for a in all_area.pop():
-                self.remove(a)
-            all_area.append(cur_area)
+        self.add(cur_area)
+        self.add(plot_bis)
+
+        def update_area(mob):
+            next_area = ax.get_area(graph=plot, x_range=(-1.5, tracker.get_value()), color=YELLOW)
+            mob.become(next_area)
+
+        def update_plot(mob):
+            next_plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()], use_smoothing=True, color=YELLOW)
+            mob.become(next_plot_bis)
 
         #update_graph(ax)
-        ax.add_updater(update_graph)
+        cur_area.add_updater(update_area)
+        plot_bis.add_updater(update_plot)
 
-        self.play(tracker.animate.set_value(float(1.5)), run_time=3)
+        self.play(tracker.animate.set_value(float(1.5)), run_time=10)
         self.wait(1)
         self.wait(10)
 
@@ -568,8 +566,8 @@ class AffineNF(MovingCameraScene):
                   aff_group.animate.rotate(0).move_to([6., 5.5, 0.]))
         self.play(self.camera.frame.animate.set(width=25))
 
-        t_red_bis = MathTex(r"x = f(z)", color=GREEN).next_to(b, DOWN)#.move_to([7.5, 3.5, 0.])
-        t_red_bis_bis = MathTex(r"x \sim \mathcal{N}(b, a^2)", color=GREEN).next_to(t_red_bis, DOWN)
+        t_red_bis = MathTex(r"y = f(z)", color=GREEN).next_to(b, DOWN)#.move_to([7.5, 3.5, 0.])
+        t_red_bis_bis = MathTex(r"y \sim \mathcal{N}(b, a^2)", color=GREEN).next_to(t_red_bis, DOWN)
         self.play(dot.animate.move_to(ax.coords_to_point(0., y)).set_color(GREEN), Create(t_red_bis))
         self.play(FadeOut(dot), Create(t_red_bis_bis))
 
