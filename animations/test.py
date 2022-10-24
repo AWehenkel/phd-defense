@@ -10,6 +10,7 @@ def monotonic_trans_inv(x):
 
 def pdf_after_trans(x):
     return 1/(25/10 *1/(np.sqrt(1+(25*x)**2))) * (1/np.sqrt(2*math.pi)) * np.exp(-.5*x ** 2)
+
 class MonotonicTransformation(MovingCameraScene):
     CONFIG = {
         "y_max" : 50,
@@ -24,24 +25,29 @@ class MonotonicTransformation(MovingCameraScene):
         MovingCameraScene.setup(self)
 
     def construct(self):
-        ax = Axes( x_range=[-3. , 3., 1.], y_range=[-.5 , .5, .25])
-        self.play(Create(ax), run_time=2.)
+        f_size = 80
+        font_weight = 20
+        line_width = 7
 
-        t = MathTex(r"z \sim \mathcal{N}(0, 1)", color=BLUE)
+        ax = Axes( x_range=[-3. , 3., 1.], y_range=[-.5 , .5, .25])
+        self.play(*[Create(ax), self.camera.frame.animate.set(width=20)], run_time=2.)
+
+        t = MathTex(r"z \sim \mathcal{N}(0, 1)", color=BLUE, font_size=f_size)
         t.next_to(ax, UR, coor_mask=[0.5, 0.5, 0])
 
-        graph = ax.plot(lambda x: 1/np.sqrt(2*math.pi) * np.exp(-x ** 2), x_range=[-3 , 3], use_smoothing=True, color=BLUE)
+        graph = ax.plot(lambda x: 1/np.sqrt(2*math.pi) * np.exp(-x ** 2), x_range=[-3 , 3],
+                        use_smoothing=True, color=BLUE, stroke_width=line_width)
         ax.insert(1, graph)
         self.play(*[Create(graph), Create(t)], run_time=2.)
         self.wait(5)
 
 
-        t_red = MathTex(r"f(z) = \frac{1}{10}arcsinh(25z)", color=WHITE)
-        t_red.next_to(ax, UL, coor_mask=[0.5, 0.5, 0])
-        graph_mon = ax.plot(monotonic_trans, x_range=[-3 , 3], use_smoothing=True, stroke_color=WHITE)
+        t_red = MathTex(r"f(z) = \frac{1}{10}arcsinh(25z)", color=WHITE, font_size=f_size)
+        t_red.next_to(ax, UL, coor_mask=[0.15, .95, 0])
+        graph_mon = ax.plot(monotonic_trans, x_range=[-3 , 3], use_smoothing=True,
+                            stroke_color=WHITE, stroke_width=line_width)
         ax.insert(1, graph_mon)
         self.play(*[Create(graph_mon), Create(t_red)], run_time=2.)
-
         self.wait(5)
 
 
@@ -65,11 +71,13 @@ class MonotonicTransformation(MovingCameraScene):
 
         bin_count, _ = np.histogram(all_y, bins=np.arange(-.5, .55, .05))
 
-        chart = BarChart(bin_count/20., x_length=x_length, y_range=[0., .15, .05]).move_to([-.85, 1.57, 0.])
+        chart = BarChart(bin_count/20., x_length=x_length, y_range=[0., .15, .05]).move_to([-.85, 2.57, 0.])
         all_objects = Group(*[graph, graph_mon, ax, dot, t, t_red])
-        self.play(all_objects.animate.rotate(-PI/2), t.animate.rotate(0).move_to([4.75, 4.5, 0.]), t_red.animate.rotate(0).move_to([6., 5.5, 0.]))
+        self.play(all_objects.animate.rotate(-PI/2), t.animate.rotate(0).move_to([-6.5, 5., 0.]),
+                  t_red.animate.rotate(0).move_to([7.5, 5.5, 0.]))
         self.play(self.camera.frame.animate.set(width=25))
-        t_red_bis = MathTex(r"y = f(z) \sim p_z(z) |\frac{\partial f(z)}{\partial z}|^{-1}", color=GREEN).move_to([6.5, 3.5, 0.])
+        t_red_bis = MathTex(r"y = f(z) \sim p_z(z) |\frac{\partial f(z)}{\partial z}|^{-1}",
+                            color=GREEN, font_size=f_size).move_to([8, 3.5, 0.])
         self.play(dot.animate.move_to(ax.coords_to_point(0., y)).set_color(GREEN), Create(t_red_bis))
         self.play(Create(chart), FadeOut(dot))
         self.play(graph.animate.move_to(ax.coords_to_point(0., -1.2)))
@@ -107,19 +115,22 @@ class MonotonicTransformation(MovingCameraScene):
             self.play(chart.animate.change_bar_values(bin_count/bin_count.sum(), update_colors=True))
 
             if j == 0:
-                plot_new = chart.plot(lambda x: pdf_after_trans(monotonic_trans_inv(x/20. - .5)) * 0.05, x_range=[0. , 20.], use_smoothing=True, stroke_color=GREEN)
+                plot_new = chart.plot(lambda x: pdf_after_trans(monotonic_trans_inv(x/20. - .5)) * 0.05,
+                                      x_range=[0. , 20.], use_smoothing=True, stroke_color=GREEN,
+                                      stroke_width=line_width)
                 self.play(Create(plot_new))
-                #self.play(self.camera.frame.animate.set(width=22))
 
         self.wait(10)
-
-
 
 class UMNN(MovingCameraScene):
     def setup(self):
         MovingCameraScene.setup(self)
 
     def construct(self):
+        f_size = 80
+        font_weight = 20
+        line_width = 7
+
         edges = []
         partitions = []
         c = 0
@@ -145,8 +156,8 @@ class UMNN(MovingCameraScene):
             vertex_config={'radius': 0.20},
         )
 
-        t = MathTex(r"g_{\theta}(z) := \frac{\partial f_\theta(z)}{\partial z} > 0", color=BLUE)
-        t.next_to(graph, UP, coor_mask=[0.5, 1., 0])
+        t = MathTex(r"g_{\theta}(z) := \frac{\partial f_\theta(z)}{\partial z} > 0", color=BLUE, font_size=f_size)
+        t.next_to(graph, UL, coor_mask=[0.25, 1., 0])
         graph.insert(0, t)
 
         self.play(Create(graph), run_time=5.)
@@ -155,31 +166,17 @@ class UMNN(MovingCameraScene):
         cur_sum = 0
         cur_nodes = []
         prev_nodes = []
-        if False:
-            for ind, v in enumerate(graph.vertices):
-                if cur_sum == layers[cur_layer]:
-                    cur_sum = 0
-                    cur_layer += 1
-                    anim = [n.animate.set_color(GREEN) for n in cur_nodes] + [n.animate.set_color(WHITE) for n in prev_nodes]
-                    self.play(*anim, )
-                    prev_nodes = cur_nodes
-                    cur_nodes = []
-
-                cur_sum += 1
-                cur_nodes.append(graph.vertices[v])
-
-            anim = [n.animate.set_color(GREEN) for n in cur_nodes] + [n.animate.set_color(WHITE) for n in prev_nodes]
-            self.play(*anim)
 
         ax = Axes( x_range=[-2. , 2., .5], y_range=[0. , 1., .5]).scale(.4).next_to(graph, UR, [-1., -1.5, 0.])
         self.play(Create(ax), run_time=5.)
 
-        plot = ax.plot(lambda x: x**2 /3., x_range=[-1.5 , 1.5], use_smoothing=True, color=BLUE)
+        plot = ax.plot(lambda x: x**2 /3., x_range=[-1.5 , 1.5],
+                       use_smoothing=True, color=BLUE, stroke_width=line_width)
         self.play(Create(plot), run_time=5.)
 
         self.play(self.camera.frame.animate.set(width=26))
 
-        text = Tex("Integrand")
+        text = Tex("Integrand", font_size=f_size)
         Create(text.next_to(t, UL, [.5, .5, 0.]))
         derivative_group = Group(*[graph, ax, plot, t, text])
         self.play(derivative_group.animate.move_to([0. , 0., 0.]))
@@ -190,10 +187,11 @@ class UMNN(MovingCameraScene):
 
         ax_bis = Axes(x_range=[-2. , 2., .5], y_range=[-1.5 , 1.5, .5]).scale(.6).next_to(rectangle_derivative, LEFT, [1., 0., 0.])
 
-        self.play(Create(ax_bis), self.camera.frame.animate.set(width=28))
+        self.play(Create(ax_bis), self.camera.frame.animate.set(width=29))
 
 
-        t = MathTex(r"f_{\theta}(z) = \int_{-\infty}^{z} g_{\theta}(t) dt", color=YELLOW).next_to(ax_bis, UP, [0., 1., 0.])
+        t = MathTex(r"f_{\theta}(z) = \int_{-\infty}^{z} g_{\theta}(t) dt",
+                    color=YELLOW, font_size=f_size).next_to(ax_bis, UP, [0., 1., 0.])
         self.play(Create(t))
 
 
@@ -202,23 +200,24 @@ class UMNN(MovingCameraScene):
 
         self.play(umnn_group.animate.move_to([0. , 0., 0.]))
 
-        text = Tex("UMNN")
-        self.play()
+        text = Tex("UMNN", font_size=f_size).next_to(t, UL, [-1.5, .5, 0.])
 
         all_obj.append(text)
         umnn_group = Group(*all_obj)
 
         rectangle_umnn = SurroundingRectangle(umnn_group, buff=.4)
-        self.play(*[Create(rectangle_umnn), Create(text.next_to(t, UL, [.5, .5, 0.]))])
+        self.play(*[Create(rectangle_umnn), Create(text)])
 
-        decimal = DecimalNumber(0, num_decimal_places=3, include_sign=True, unit=None).move_to(ax_bis.coords_to_point(2., 2.))
+        decimal = DecimalNumber(0, num_decimal_places=3, include_sign=True,
+                                unit=None, font_size=f_size).move_to(ax_bis.coords_to_point(1., 2.))
 
         decimal.add_updater(lambda d: d.set_value(tracker.get_value()))
         self.add(decimal)
 
         tracker = ValueTracker(-1.5)
         cur_area = ax.get_area(graph=plot, x_range=(-1.5, tracker.get_value()), color=YELLOW)
-        plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()], use_smoothing=True, color=YELLOW)
+        plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()],
+                               use_smoothing=True, color=YELLOW, stroke_width=line_width)
 
         self.add(cur_area)
         self.add(plot_bis)
@@ -228,7 +227,8 @@ class UMNN(MovingCameraScene):
             mob.become(next_area)
 
         def update_plot(mob):
-            next_plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()], use_smoothing=True, color=YELLOW)
+            next_plot_bis = ax_bis.plot(lambda x: x**3/4, x_range=[-1.5 , tracker.get_value()],
+                                        use_smoothing=True, color=YELLOW, stroke_width=line_width)
             mob.become(next_plot_bis)
 
         #update_graph(ax)
@@ -238,8 +238,6 @@ class UMNN(MovingCameraScene):
         self.play(tracker.animate.set_value(float(1.5)), run_time=10)
         self.wait(1)
         self.wait(10)
-
-
 
 
 class Newton_1(MovingCameraScene):
@@ -255,6 +253,10 @@ class Newton_1(MovingCameraScene):
         MovingCameraScene.setup(self)
 
     def construct(self):
+        f_size = 80
+        font_weight = 20
+        line_width = 7
+
         rand = np.random
         def movement_equation (x, x_0, dx_0, F):
             x = x #+ rand.randn() * .01
@@ -285,7 +287,8 @@ class Newton_1(MovingCameraScene):
             x_max_half = .5*F[0]*t_max**2/4 + dx_0[0] * t_max/2.
 
             # Define the cubic graph
-            CubicGraph = ax.plot(lambda x: movement_equation(x, x_0, dx_0, F), x_range=[0, x_max_half] , color=WHITE, stroke_width=2)
+            CubicGraph = ax.plot(lambda x: movement_equation(x, x_0, dx_0, F),
+                                 x_range=[0, x_max_half] , color=WHITE, stroke_width=line_width)
             ball = Dot()
             self.play(MoveAlongPath(ball, CubicGraph), Create(CubicGraph), run_time=3)
             self.remove(ball)
@@ -298,7 +301,9 @@ class Newton_1(MovingCameraScene):
             delta = last_dx_1[1]**2 - 2*F[1]*last_x[1]
             t_max = (-last_dx_1[1] - np.sqrt(delta))/F[1]
             x_max = .5*F[0]*t_max**2 + last_dx_1[0] * t_max + x_max_half
-            DashedCubicGraph_1 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_1, F), x_range=[x_max_half, x_max] , color=BLUE, stroke_width=2))
+            DashedCubicGraph_1 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_1, F),
+                                                        x_range=[x_max_half, x_max] , color=BLUE,
+                                                        stroke_width=line_width))
             self.play(Create(DashedCubicGraph_1))
 
             last_dx_2 = last_dx + rand.randn(2) * .5
@@ -306,7 +311,9 @@ class Newton_1(MovingCameraScene):
             delta = last_dx_2[1]**2 - 2*F[1]*last_x[1]
             t_max = (-last_dx_2[1] - np.sqrt(delta))/F[1]
             x_max = .5*F[0]*t_max**2 + last_dx_2[0] * t_max + x_max_half
-            DashedCubicGraph_2 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_2, F ), x_range=[x_max_half, x_max] , color=YELLOW, stroke_width=2))
+            DashedCubicGraph_2 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_2, F ),
+                                                        x_range=[x_max_half, x_max] ,
+                                                        color=YELLOW, stroke_width=line_width))
             self.play(Create(DashedCubicGraph_2))
 
             last_dx_3 = last_dx + rand.randn(2) * .5
@@ -314,14 +321,16 @@ class Newton_1(MovingCameraScene):
             delta = last_dx_3[1]**2 - 2*F[1]*last_x[1]
             t_max = (-last_dx_3[1] - np.sqrt(delta))/F[1]
             x_max = .5*F[0]*t_max**2 + last_dx_3[0] * t_max + x_max_half
-            DashedCubicGraph_3 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_3, F), x_range=[x_max_half, x_max] , color=GREEN, stroke_width=2))
+            DashedCubicGraph_3 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_3, F),
+                                                        x_range=[x_max_half, x_max] , color=GREEN,
+                                                        stroke_width=line_width))
             self.play(Create(DashedCubicGraph_3))
             self.wait(1)
 
             delta = dx_0[1]**2 - 2*F[1]*x_0[1]
             t_max = (-dx_0[1] - np.sqrt(delta))/F[1]
             x_max = .5*F[0]*t_max**2 + dx_0[0] * t_max
-            DashedCubicGraph_4 = ax.plot(lambda x: movement_equation(x, last_x, last_dx, F), x_range=[x_max_half, x_max] , color=WHITE, stroke_width=2)
+            DashedCubicGraph_4 = ax.plot(lambda x: movement_equation(x, last_x, last_dx, F), x_range=[x_max_half, x_max] , color=WHITE, stroke_width=line_width)
             ball = Dot()
             self.play(MoveAlongPath(ball, DashedCubicGraph_4), Create(DashedCubicGraph_4), run_time=3)
             self.wait(5)
@@ -356,7 +365,6 @@ class Newton_1(MovingCameraScene):
 
 
 
-
 class Newton_2(MovingCameraScene):
     CONFIG = {
         "x_min": 0,
@@ -370,6 +378,10 @@ class Newton_2(MovingCameraScene):
         MovingCameraScene.setup(self)
 
     def construct(self):
+        f_size = 80
+        font_weight = 20
+        line_width = 7
+
         rand = np.random
         def movement_equation (x, x_0, dx_0, F):
             x = x #+ rand.randn() * .01
@@ -400,7 +412,7 @@ class Newton_2(MovingCameraScene):
         x_max_half = .5*F[0]*t_max**2/4 + dx_0[0] * t_max/2.
 
         # Define the cubic graph
-        CubicGraph = ax.plot(lambda x: movement_equation(x, x_0, dx_0, F), x_range=[0, x_max_half] , color=WHITE, stroke_width=2)
+        CubicGraph = ax.plot(lambda x: movement_equation(x, x_0, dx_0, F), x_range=[0, x_max_half] , color=WHITE, stroke_width=line_width)
         ball = Dot()
         self.play(MoveAlongPath(ball, CubicGraph), Create(CubicGraph), run_time=3)
         self.remove(ball)
@@ -416,7 +428,7 @@ class Newton_2(MovingCameraScene):
             delta = last_dx_1[1]**2 - 2*F[1]*last_x[1]
             t_max = (-last_dx_1[1] - np.sqrt(delta))/F[1]
             x_max = .5*F[0]*t_max**2 + last_dx_1[0] * t_max + x_max_half
-            DashedCubicGraph_1 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_1, F), x_range=[x_max_half, x_max] , color=BLUE, stroke_width=2))
+            DashedCubicGraph_1 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_1, F), x_range=[x_max_half, x_max] , color=BLUE, stroke_width=line_width))
             self.play(Create(DashedCubicGraph_1), run_time=.5)
             all_y.append(x_max)
             all_plots.append(DashedCubicGraph_1)
@@ -433,7 +445,7 @@ class Newton_2(MovingCameraScene):
 
 
         text = MathTex("[x_{t+}, \dot x_{t+}] \sim p(x_{t+}, \dot x_{t+} | x_{t-})",
-                       color=BLUE).move_to(ax.coords_to_point(5.5, 14))
+                       color=BLUE, font_size=f_size).move_to(ax.coords_to_point(5.5, 14))
 
         self.play(Create(text))
         #return
@@ -446,7 +458,7 @@ class Newton_2(MovingCameraScene):
                 delta = last_dx_1[1]**2 - 2*F[1]*last_x[1]
                 t_max = (-last_dx_1[1] - np.sqrt(delta))/F[1]
                 x_max = .5*F[0]*t_max**2 + last_dx_1[0] * t_max + x_max_half
-                DashedCubicGraph_1 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_1, F), x_range=[x_max_half, x_max] , color=BLUE, stroke_width=2))
+                DashedCubicGraph_1 = DashedVMobject(ax.plot(lambda x: movement_equation(x, last_x, last_dx_1, F), stroke_width=line_width, x_range=[x_max_half, x_max] , color=BLUE))
                 graphs.append(DashedCubicGraph_1)
                 ball = Dot()
                 dots.append(ball)
@@ -482,30 +494,34 @@ class AffineNF(MovingCameraScene):
         MovingCameraScene.setup(self)
 
     def construct(self):
+        f_size = 80
+        font_weight = 20
+        line_width = 7
+
         ax = Axes( x_range=[-3. , 3., 1.], y_range=[-3., 3., 1.])
         self.play(Create(ax), run_time=2.)
 
-        t_red = MathTex(r"f(z) = a z + b", color=WHITE).move_to(ax.coords_to_point(-1., 3.))
+        t_red = MathTex(r"f(z) = a z + b", color=WHITE, font_size=f_size).move_to(ax.coords_to_point(0., 3.))
         t_red.next_to(ax, UL, coor_mask=[0.5, 0.5, 0])
 
-        a = MathTex("a: ").next_to(t_red, DOWN)
+        a = MathTex("a: ", font_size=f_size).next_to(t_red, DOWN)
         tracker_a = ValueTracker(1.)
-        decimal_a = DecimalNumber(0, num_decimal_places=2, include_sign=True, unit=None).next_to(a, RIGHT)
+        decimal_a = DecimalNumber(0, num_decimal_places=2, include_sign=True, unit=None, font_size=f_size).next_to(a, RIGHT)
         decimal_a.add_updater(lambda d: d.set_value(tracker_a.get_value()))
         self.add(decimal_a)
         self.add(a)
         self.play(Create(a))
 
-        b = MathTex("b: ").next_to(a, DOWN)
+        b = MathTex("b: ", font_size=f_size).next_to(a, DOWN)
         tracker_b = ValueTracker(0.)
-        decimal_b = DecimalNumber(0, num_decimal_places=2, include_sign=True, unit=None).next_to(b, RIGHT)
+        decimal_b = DecimalNumber(0, num_decimal_places=2, include_sign=True, unit=None, font_size=f_size).next_to(b, RIGHT)
         decimal_b.add_updater(lambda d: d.set_value(tracker_b.get_value()))
         self.add(decimal_b)
         self.add(b)
         self.play(Create(b))
 
 
-        graph_mon = ax.plot(affine_trans(tracker_a.get_value(), tracker_b.get_value()), x_range=[-3 , 3], use_smoothing=True, stroke_color=WHITE)
+        graph_mon = ax.plot(affine_trans(tracker_a.get_value(), tracker_b.get_value()), stroke_width=line_width, x_range=[-3 , 3], use_smoothing=True, stroke_color=WHITE)
         ax.insert(1, graph_mon)
         self.play(*[Create(graph_mon), Create(t_red)], run_time=2.)
 
@@ -513,17 +529,17 @@ class AffineNF(MovingCameraScene):
         self.wait(1)
 
         def update_graph(mob):
-            new_graph = ax.plot(affine_trans(tracker_a.get_value(), tracker_b.get_value()), x_range=[-3 , 3], use_smoothing=True, stroke_color=WHITE)
+            new_graph = ax.plot(affine_trans(tracker_a.get_value(), tracker_b.get_value()), stroke_width=line_width, x_range=[-3 , 3], use_smoothing=True, stroke_color=WHITE)
             mob.become(new_graph)
 
         #update_graph(ax)
         graph_mon.add_updater(update_graph)
-        self.play(a.animate.set_color(GREEN))
+        self.play(a.animate.set_color(RED))
         self.play(tracker_a.animate.set_value(float(2.)), run_time=2)
         self.play(tracker_a.animate.set_value(float(-2)), run_time=2)
         self.play(tracker_a.animate.set_value(float(.5)), run_time=1)
         self.play(a.animate.set_color(WHITE))
-        self.play(b.animate.set_color(GREEN))
+        self.play(b.animate.set_color(RED))
         self.play(tracker_b.animate.set_value(float(2.)), run_time=2)
         self.play(tracker_b.animate.set_value(float(-2)), run_time=2)
         self.play(tracker_b.animate.set_value(float(-.75)), run_time=1)
@@ -532,10 +548,10 @@ class AffineNF(MovingCameraScene):
         ax_gaussian = Axes(x_range=[-3. , 3., 1.], y_range=[0., 1., 1.])
         ax_gaussian.set_opacity(0.).move_to(ax.coords_to_point(0., -.75))
 
-        t = MathTex(r"z \sim \mathcal{N}(0, 1)", color=BLUE)
-        t.next_to(ax_gaussian, UR, coor_mask=[0.5, -.5, 0])
+        t = MathTex(r"z \sim \mathcal{N}(0, 1)", color=BLUE, font_size=f_size)
+        t.next_to(ax_gaussian, UR, coor_mask=[0.4, -.5, 0])
 
-        graph = ax_gaussian.plot(lambda x: 1/np.sqrt(2*math.pi) * np.exp(-x ** 2), x_range=[-3 , 3], use_smoothing=True, color=BLUE)
+        graph = ax_gaussian.plot(lambda x: 1/np.sqrt(2*math.pi) * np.exp(-x ** 2), stroke_width=line_width, x_range=[-3 , 3], use_smoothing=False, color=BLUE)
         self.play(*[Create(graph), Create(t)], run_time=2.)
         self.wait(1)
 
@@ -562,27 +578,26 @@ class AffineNF(MovingCameraScene):
         aff_group = Group(*[t_red, a, b, decimal_a, decimal_b])
         all_objects = Group(*[graph, graph_mon, ax, dot, t, aff_group])
         self.play(all_objects.animate.rotate(-PI/2),
-                  t.animate.rotate(0).move_to([-4.75, 4.5, 0.]),
+                  t.animate.rotate(0).move_to([-9.5, 4.5, 0.]),
                   aff_group.animate.rotate(0).move_to([6., 5.5, 0.]))
         self.play(self.camera.frame.animate.set(width=25))
 
-        t_red_bis = MathTex(r"y = f(z)", color=GREEN).next_to(b, DOWN)#.move_to([7.5, 3.5, 0.])
-        t_red_bis_bis = MathTex(r"y \sim \mathcal{N}(b, a^2)", color=GREEN).next_to(t_red_bis, DOWN)
+        t_red_bis = MathTex(r"x = f(z)", color=GREEN, font_size=f_size).next_to(b, DOWN)#.move_to([7.5, 3.5, 0.])
+        t_red_bis_bis = MathTex(r"x \sim \mathcal{N}(b, a^2)", color=GREEN, font_size=f_size).next_to(t_red_bis, DOWN)
         self.play(dot.animate.move_to(ax.coords_to_point(0., y)).set_color(GREEN), Create(t_red_bis))
         self.play(FadeOut(dot), Create(t_red_bis_bis))
 
         self.play(*[graph.animate.move_to([-5., 0. , 0.])])
 
         graph = ax.plot(lambda x: 3/np.sqrt(2*math.pi*tracker_a.get_value()**2) * np.exp(-((x - tracker_b.get_value())/tracker_a.get_value()) ** 2), x_range=[-2 , 2],
-                                 use_smoothing=True, color=GREEN).rotate(PI/2).move_to(ax.coords_to_point(2, 0),
-                                                                                      coor_mask=[0, 1, 0])
+                                 use_smoothing=True, color=GREEN, stroke_width=line_width).rotate(PI/2).move_to(ax.coords_to_point(0, 0),
+                                                                                      coor_mask=[1., 1, 0])
         self.play(*[Create(graph)], run_time=2.)
-
 
         def update_graph_bis(mob):
             new_graph = ax.plot(lambda x: 3/np.sqrt(2*math.pi*tracker_a.get_value()**2) * np.exp(-((x - tracker_b.get_value())/tracker_a.get_value()) ** 2), x_range=[-2 , 2],
-                                 use_smoothing=True, color=GREEN).rotate(PI/2).move_to(ax.coords_to_point(2, 0),
-                                                                                      coor_mask=[0, 1, 0])
+                                 use_smoothing=True, color=GREEN, stroke_width=line_width).rotate(PI/2).move_to(ax.coords_to_point(0, 0),
+                                                                                      coor_mask=[1., 1, 0])
             mob.become(new_graph)
 
         graph.add_updater(update_graph_bis)
