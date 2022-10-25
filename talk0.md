@@ -3,7 +3,6 @@ count: True
 # Inductive Bias in
 #Deep Probabilistic Modelling
 ## Antoine Wehenkel
-#### PhD Defense
 
 
 .absolute.top.left.width-40[![](figures/fnrs.png)]
@@ -24,9 +23,10 @@ That is making machines able to make informed choice. This is what we call artif
 To make machine intelligent, there are two strategies, we can directly encode the intelligent reasoning in the machine.
 Or, instead, we can let machines learn from data.
 In my thesis, I have focused on the second strategy, that's what we call machine learning.
-And in particular, behind this scary title hide contributions
 
-I made to help machine learn good abstraction of the world.
+
+And, in particular, behind this scary title hides the contributions I made
+to help machine learn good abstraction of the world.
 
 
 ---
@@ -63,7 +63,7 @@ about what is important, the horizontal position of the ball when it will touch 
 
 ---
 
-.important[.center[A model is a simplified representation of the reality.]]
+.center[.important[.center[A model is a simplified representation of the reality.]]]
 
 .center.width-90[![](figures/Newtonian_Gravity_Crash_Course_Physics_8.gif)]
 
@@ -77,7 +77,7 @@ about what is important, the horizontal position of the ball when it will touch 
 
 ---
 
-# Model Discovery
+# Model discovery
 
 .center.circle.width-40[![](figures/Gallilee.jpeg)]
 
@@ -90,10 +90,10 @@ This shows how building mathematical model can help us automate tasks that requi
 Clearly, the goal is to write down in formal terms what is happening when we solve tasks with our brain.
 
 ---
-# Atomic Discovery
+# Discovery of the atom
 .avatars[.circle.width-100[![](figures/John-Dalton.jpg)]]
 
-## The first scientific atomic model: *John Dalton in 1803.*
+## The first scientific model: *John Dalton in 1803.*
 
 .center.width-80[![](figures/atom_1.png)]
 
@@ -109,7 +109,7 @@ Clearly, the goal is to write down in formal terms what is happening when we sol
 
 
 ---
-# Atomic Discovery
+# Discovery of the atom
 .avatars[.circle.width-100[![](figures/jj-thomson.jpeg)]]
 
 ## Electrons and protons: *JJ Thomson in 1897.*
@@ -121,7 +121,7 @@ Clearly, the goal is to write down in formal terms what is happening when we sol
 ???
 plum pudding model
 ---
-# Atomic Discovery
+# Discovery of the atom
 .avatars[.circle.width-100[![](figures/Ernest-Rutherford.jpeg)]]
 
 ## The nucleus: *Ernest Rutherford in 1911.*
@@ -131,7 +131,7 @@ plum pudding model
 1911
 
 ---
-# Atomic Discovery
+# Discovery of the atom
 .avatars[.circle.width-100[![](figures/Niels_Bohr.jpeg)]]
 
 ## Discrete energy levels: *Niels Bohr in 1913.*
@@ -153,7 +153,7 @@ allows to predict the properties of the atoms. It explains the Mendeleiv table.
 ---
 class: vertical-align-slide
 
-# Box's Loop
+# Box's loop
 
 .avatars[.circle.width-100[![](figures/GeorgeEPBox.jpeg)]]
 
@@ -228,9 +228,9 @@ class: section
 # Contributions
 
 - Unconstrained Monotonic Neural Networks, 2019
-- *You say Normalizing Flows I see Bayesian Networks, 2020*
+- .grey[You say Normalizing Flows I see Bayesian Networks, 2020]
 - Graphical normalizing flows, 2021
-- *Diffusion priors in variational autoencoders, 2021*
+- .grey[Diffusion priors in variational autoencoders, 2021]
 - Robust Hybrid Learning With Expert Augmentation, 2022
 
 --
@@ -238,14 +238,14 @@ class: section
 <br/>
 <br/>
 <br/>
-.important.center[Improvements to deep probabilistic models.]
+.center[.important[.center[Improvements to deep probabilistic models.]]]
 
 ---
 class: black-slide
-# Probabilistic Modelling
+# Probabilistic modelling
 .important[Model randomness or uncertainty with the language of probability.]
 
-<video muted frameborder="0" width=90%  autoplay controls loop>
+<video muted frameborder="0" width=100%  autoplay controls loop>
   <source src="figures/Newton_2.mp4" type="video/mp4"  controls>
 </video>
 
@@ -257,7 +257,7 @@ models try to achieve the same goal... Create an abstract representation of a re
 with mathematical terms such that we can confront it to data and make prediction with it
 
 ---
-# Deep Neural Networks
+# Deep neural networks
 
 .center.width-70[![](figures/NN1.png)]
 
@@ -265,7 +265,7 @@ with mathematical terms such that we can confront it to data and make prediction
 count: false
 
 
-# Deep Neural Networks
+# Deep neural networks
 
 .center.width-70[![](figures/NN2.png)]
 
@@ -273,22 +273,22 @@ count: false
 count: false
 
 - $f\_\theta: \mathcal{X} \rightarrow \mathcal{Y},$
-- Solve $\theta^\star = \arg\min\_{\theta} \mathbb{E}\_{x, y}\left[ d(f\_\theta, x, y) \right]$ via gradient descent.
+- Solve $\theta^\star = \arg\min\_{\theta} \mathbb{E}\_{x, y}\left[ l(f\_\theta, x, y) \right]$ via gradient descent.
 
 ---
 
-# Discrete Output
+# Discrete output
 
 .center.width-80[![](figures/discrete_DPM.png)]
 <br/>
-## $$\theta^\star = \arg\min\_{\theta} \mathbb{E}\_{x, y}\left[ d(f\_\theta, x, y) \right].$$
+## $$\theta^\star = \arg\min\_{\theta} \mathbb{E}\_{x, y}\left[ l(f\_\theta, x, y) \right].$$
 
 ---
 
-# Discrete Output
+# Discrete output
 
 .center.width-80[![](figures/discrete_DPM.png)]
-Let $d := KL = 0 \iff P\_\theta(y|x) == P(y | x)$, then
+Let $l := KL = 0 \iff P\_\theta(y|x) == P(y | x)$, then
 $$
 \begin{aligned}
 \theta^\star &= \arg\min\_{\theta} \mathbb{E}\_{x} \left[ KL(P(y | x)) || P\_\theta(y|x) \right]  = \arg\min\_{\theta} \mathbb{E}\_{x}\mathbb{E}\_{y|x}\left[ \log \frac{P(y | x)}{P\_\theta(y|x)}\right]\\\\
@@ -298,22 +298,22 @@ $$
 $$
 
 ---
-# Continuous Output
+# Continuous output
 
 .center.width-80[![](figures/continuous_DPM.png)]
 
-## $$p\_\theta(y|x) := \frac{1}{\sqrt{2 \pi \sigma\_\theta(x)^2}} \exp{-\frac{(y - \mu\_\theta(x))^2}{2\sigma\_\theta(x)^2}}.$$
+## $$p\_\theta(y|x) := \frac{1}{\sqrt{2 \pi \sigma\_\theta(x)^2}} \exp{\left(-\frac{(y - \mu\_\theta(x))^2}{2\sigma\_\theta(x)^2}\right)}.$$
 
 ---
 class: black-slide
-# Affine Transformations
+# Affine transformations
 .center[<video muted frameborder="0" width=100% controls autoplay>
   <source src="figures/AffineNF.mp4" type="video/mp4"  controls loop autoplay>
 </video>]
 ---
 class: black-slide
 
-# Monotonic Transformations
+# Monotonic transformations
 
 .center[<video muted frameborder="0" width=100% controls autoplay>
   <source src="figures/MonotonicTransformation.mp4" type="video/mp4"  controls loop autoplay>
@@ -322,7 +322,7 @@ class: black-slide
 ---
 class: black-slide
 
-# Monotonic Neural Networks
+# Monotonic neural networks
 .center[<video muted frameborder="0" width=100% controls autoplay>
   <source src="figures/UMNN.mp4" type="video/mp4"  controls loop autoplay>
 </video>]
@@ -349,12 +349,14 @@ count: false
 <br/>
 <br/>
 <br/>
+
 <br/>
-# .center[$p(y\_1, y\_2) = p(y\_1) p(y\_2)$]
+
+# .center[$p(y\_1, y\_2) = p(y\_1) p(y\_2)$ if $y\_1 \\perp y\_2$]
 
 ---
 
-# Bayesian Networks
+# Bayesian networks
 <br/>
 
 .grid[.kol-6-12[
@@ -368,14 +370,14 @@ count: false
 
 --
 count: false
-## .center[$p(\mathbf{y}) = p(y\_1) p(y\_3) p(y\_2|y\_3)p(y\_4|y\_1, y\_4).$]
+## .center[$p(\mathbf{y}) = p(y\_1) p(y\_3) p(y\_2|y\_3)p(y\_4|y\_1, y\_2).$]
 
 
 --
 count: false
 
-## *What is $f$?*
-## $$f(\mathbf{y}) = \begin{bmatrix} f\_1(y\_1) & f\_2(y\_2; y\_3) & f\_3(y\_3) & f_4(y\_4; y\_1, y\_2) \end{bmatrix}^T.$$
+## *What is the transformation $\mathbf{f}$?*
+## $$\mathbf{z} = \mathbf{f}(\mathbf{y}) = \begin{bmatrix} f\_1(y\_1) & f\_2(y\_2; y\_3) & f\_3(y\_3) & f_4(y\_4; y\_1, y\_2) \end{bmatrix}^T.$$
 
 
 ???
@@ -391,7 +393,7 @@ independence assumptions we suppose reasonable.
 <br/>
 <br/>
 .grid[
-.kol-6-12[.width-70[![](figures/BN_auto_bis.png)]]
+.kol-6-12[.width-70[![](figures/DAG_BN_bis.png)]]
 .kol-6-12[
 <br/>
 ## $z_i = f\_i(y_i; \mathbf{c}\_i(\mathbf{y})).$
@@ -412,8 +414,8 @@ independence assumptions we suppose reasonable.
 ## $z_i = f\_i(y_i; \mathbf{c}\_i(\mathbf{y})).$
 
 ## $\mathbf{c}\_i(\mathbf{y}) =$
-- ## $\underline{\mathbf{h}}\_i \quad \text{if} \quad i \leq d$;
-- ## $\mathbf{h}\_i\left(\begin{bmatrix} y\_i & ... & y\_d \end{bmatrix}^T\right)$ if $i > d$.
+- ## $\underline{\mathbf{h}}\_i \quad \text{if} \quad i \leq k$;
+- ## $\mathbf{h}\_i\left(\begin{bmatrix} y\_i & ... & y\_k \end{bmatrix}^T\right)$ if $i > k$.
 ]
 ]
 
@@ -422,9 +424,10 @@ independence assumptions we suppose reasonable.
 
 <br/>
 <br/>
+<br/>
 .grid[
 .kol-4-12[.width-100[![](figures/BN_A.png)]]
-.kol-4-12[.width-80[![](figures/BN_any.png)]]
+.kol-4-12[.width-90[![](figures/BN_any.png)]]
 .kol-4-12[
 <br/>
 ## $z\_i = f\_i(y\_i; \mathbf{c}\_i(\mathbf{y})).$
@@ -436,7 +439,7 @@ independence assumptions we suppose reasonable.
 --
 
 <br/>
-## $$p\_{\mathbf{f}}(\mathbf{y})  =  \prod\_{i=1}^d p(z\_i = f\_i(y\_i; \mathbf{c}\_i(\mathbf{y}))) |\frac{\partial f\_i}{\partial y\_i}|.$$
+## $$p\_{\theta}(\mathbf{y})  =  \prod\_{i=1}^d p(z\_i = f\_i(y\_i; \mathbf{c}\_i(\mathbf{y}))) \left|\frac{\partial f\_i}{\partial y\_i}\right|.$$
 
 
 ???
@@ -447,10 +450,10 @@ This allows us to embed into
 class: black-slide
 
 # Another perspective
-## $$ p(\mathbf{y}; \mathbf{\theta}) = p\_\mathbf{z}(f(\mathbf{y}; \mathbf{\theta})) \left| \det J\_f(\mathbf{y}; \mathbf{\theta})\right|.$$
+## $$ p\_{\theta}(\mathbf{y}) = p\_\mathbf{z}(\mathbf{f}(\mathbf{y})) \left| \det J\_\mathbf{f}(\mathbf{y})\right|.$$
 
 .center[
-<video muted frameborder="0" width="600"  autoplay controls>
+<video muted frameborder="0" width=100%  controls>
   <source src="figures/determinant.mp4" type="video/mp4"  controls>
 </video>
 ]
@@ -459,17 +462,17 @@ class: black-slide
 count: false
 # Another perspective
 
-## $$ p(\mathbf{y}; \mathbf{\theta}) = p\_\mathbf{z}(f(\mathbf{y}; \mathbf{\theta})) \left| \det J\_f(\mathbf{y}; \mathbf{\theta})\right|.$$
+## $$ p\_{\theta}(\mathbf{y}) = p\_\mathbf{z}(\mathbf{f}(\mathbf{y})) \left| \det J\_\mathbf{f}(\mathbf{y})\right|.$$
 
 ## *Ancestral ordering of DAGs.*
 
 --
-## $J_f$ is triangular (up to a certain permutation $P$) $\Rightarrow \det J\_f = \prod^d\_1 \frac{d f\_i}{d y\_i}.$
+## $J\_\mathbf{f}$ is triangular (up to a certain permutation $P$) $\Rightarrow \det J\_\mathbf{f} = \prod^d\_1 \frac{\partial f\_i}{\partial y\_i}.$
 
 --
-## $\frac{d f\_i}{d y\_i} > 0 \Rightarrow \det J_f(\mathbf{y}) > 0.$
+## $\frac{\partial f\_i}{\partial y\_i} > 0 \Rightarrow \det J\_\mathbf{f}(\mathbf{y}) > 0.$
 
-## *Sufficient condition:* $ \det J_f(\mathbf{y}; \mathbf{\theta}) > 0 \quad \forall \mathbf{y} \in \mathbb{R}^d.$
+## *Sufficient condition:* $ \det J\_\mathbf{f}(\mathbf{y}) > 0 \quad \forall \mathbf{y} \in \mathbb{R}^d.$
 
 ---
 
@@ -485,7 +488,7 @@ count:false
 ## .center[$A \in\{0, 1\}^{d\times d}$ and  $\mathcal{G}(A) \in \mathsf{DAGs}.$]
 
 
-.grid[.kol-6-12[.width-100[![](figures/BN.gif)]] .kol-6-12[.width-70[![](figures/BN_A.gif)]]]
+.grid[.kol-6-12[.width-100[![](figures/BN.gif)]] .kol-6-12[.width-80[![](figures/BN_A.gif)]]]
 
 ---
 count:false
@@ -600,9 +603,35 @@ count: false
 
 ---
 
-.avatars[.center.circle.width-100[![](figures/robot_1.jpg)]]
+.avatars[
+.circle-small[![](figures/John-Dalton.jpg)]
+.circle-small[![](figures/jj-thomson.jpeg)]
+.circle-small[![](figures/Ernest-Rutherford.jpeg)]
+.circle-small[![](figures/Niels_Bohr.jpeg)]
+.circle-small[![](figures/Erwin-Schrödinger.jpeg)]
+]
 
-.vertical-center.center.width-80[![](figures/figure_Box_loop/figure_Box_loop.005.png)]
+<br/>
+<br/>
+<br/>
+<br/>
+.center.width-100[![](figures/figure_Box_loop_bis/figure_Box_loop_bis.005.png)]
+---
+
+.avatars[
+.circle-small[![](figures/John-Dalton.jpg)]
+.circle-small[![](figures/jj-thomson.jpeg)]
+.circle-small[![](figures/Ernest-Rutherford.jpeg)]
+.circle-small[![](figures/Niels_Bohr.jpeg)]
+.circle-small[![](figures/Erwin-Schrödinger.jpeg)]
+.circle-small[![](figures/robot_1.jpg)]
+]
+
+<br/>
+<br/>
+<br/>
+<br/>
+.center.width-100[![](figures/last_science/last_science.001.png)]
 
 ---
 
@@ -624,27 +653,102 @@ count: false
 
 ---
 # The Heat Diffusion Case
+.grid[
 
-.center.width-20[![](figures/Hybrid_1.png)]
+.kol-4-12[
+.center[Ground truth]
+
+.center.width-50[![](figures/diff_1.jpg)]
+
+.center.width-50[![](figures/diff_2.jpg)]
+]
+
+.kol-4-12[
+]
+.kol-4-12[]
+
+.kol-4-12[
+]
+]
 
 ---
 count: false
 # Training Distribution
+.grid[
+.kol-4-12[
+.center[Ground truth]
 
-.center.width-30[![](figures/Hybrid_2.png)]
+.center.width-50[![](figures/diff_1.jpg)]
 
+.center.width-50[![](figures/diff_2.jpg)]
+]
+.kol-4-12[
+.center[ML]
+
+.center.width-50[![](figures/diff_1.jpg)]
+
+.center.width-50[![](figures/diff_2.jpg)]
+]
+
+.kol-4-12[
+]
+.kol-4-12[]
+]
 ---
 count: false
 # Test Distribution
 
-.center.width-30[![](figures/Hybrid_3.jpg)]
 
+.grid[
+.kol-4-12[
+.center[Ground truth]
+
+.center.width-50[![](figures/diff_5.jpg)]
+
+.center.width-50[![](figures/diff_3.jpg)]
+]
+.kol-4-12[
+.center[ML]
+
+.center.width-50[![](figures/diff_5.jpg)]
+
+.center.width-50[![](figures/diff_4.jpg)]
+]
+
+.kol-4-12[
+]
+.kol-4-12[]
+]
 ---
 count: false
 # Hybrid Learning
 
-.center.width-50[![](figures/Hybrid_4.jpg)]
 
+
+.grid[
+.kol-4-12[
+.center[Ground truth]
+
+.center.width-50[![](figures/diff_5.jpg)]
+
+.center.width-50[![](figures/diff_3.jpg)]
+]
+.kol-4-12[
+.center[ML]
+
+.center.width-50[![](figures/diff_5.jpg)]
+
+.center.width-50[![](figures/diff_4.jpg)]
+]
+.kol-4-12[
+.center[Hybrid Model]
+
+.center.width-50[![](figures/diff_5.jpg)]
+
+.center.width-50[![](figures/diff_3.jpg)]
+]
+.kol-4-12[]
+]
 ---
 
 # Contribution
@@ -776,7 +880,7 @@ $
 .footnote[Credits: Jakub Tomzcak - [https://jmtomczak.github.io/blog/7/7_priors.html](https://jmtomczak.github.io/blog/7/7_priors.html)]
 
 
-.important[Contribution: Model the prior with a diffusion model.]
+.center[.important[Contribution: Model the prior with a diffusion model.]]
 
 $$
 \begin{aligned}

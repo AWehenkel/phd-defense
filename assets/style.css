@@ -18,7 +18,9 @@ body {
   background-color: black;
 }
 
-
+.grey {
+  color: grey;
+}
 
 .footnote {
   position: absolute;
@@ -33,7 +35,6 @@ body {
 }
 
 .footnote:before {
-    content: "\2015\2015\2015";
     display: block;
 }
 
@@ -65,6 +66,8 @@ body {
     font-size: 1.4em;
     border-top: solid 5px #222222;
     padding-top: 45px;
+
+    padding: 1em 3em 1em 3em;
 }
 
 .remark-slide-content h1 {
@@ -304,6 +307,7 @@ td {
     background-color: #222;
     color: white;
     border-top: solid 0px;
+    margin-left:
 }
 
 .black-slide h2{
@@ -366,12 +370,14 @@ blockquote {
 }
 
 .important {
-  display: block;;
+  display: inline-block;
   font-size: 1.2em;
   background-color: #0f88885c;
-  border: 1px solid #333;
-  border-radius: 5px;
-  padding: 5px;
+  border: 0.5px solid #333;
+  border-radius: 3px;
+  padding: 3px;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .rotate-90 {

@@ -42,7 +42,7 @@ class MonotonicTransformation(MovingCameraScene):
         self.wait(5)
 
 
-        t_red = MathTex(r"f(z) = \frac{1}{10}arcsinh(25z)", color=WHITE, font_size=f_size)
+        t_red = MathTex(r"f(z) = \frac{1}{10}\operatorname{arcsinh}(25z)", color=WHITE, font_size=f_size)
         t_red.next_to(ax, UL, coor_mask=[0.15, .95, 0])
         graph_mon = ax.plot(monotonic_trans, x_range=[-3 , 3], use_smoothing=True,
                             stroke_color=WHITE, stroke_width=line_width)
@@ -71,12 +71,12 @@ class MonotonicTransformation(MovingCameraScene):
 
         bin_count, _ = np.histogram(all_y, bins=np.arange(-.5, .55, .05))
 
-        chart = BarChart(bin_count/20., x_length=x_length, y_range=[0., .15, .05]).move_to([-.85, 2.57, 0.])
+        chart = BarChart(bin_count/20., x_length=x_length, y_range=[0., .15, .05]).move_to([-1.22, 2.95, 0.])
         all_objects = Group(*[graph, graph_mon, ax, dot, t, t_red])
-        self.play(all_objects.animate.rotate(-PI/2), t.animate.rotate(0).move_to([-6.5, 5., 0.]),
+        self.play(all_objects.animate.rotate(-PI/2), t.animate.rotate(0).move_to([-6.75, 5., 0.]),
                   t_red.animate.rotate(0).move_to([7.5, 5.5, 0.]))
         self.play(self.camera.frame.animate.set(width=25))
-        t_red_bis = MathTex(r"y = f(z) \sim p_z(z) |\frac{\partial f(z)}{\partial z}|^{-1}",
+        t_red_bis = MathTex(r"y = f(z) \sim p_z(z) \left|\frac{\partial f(z)}{\partial z}\right|^{-1}",
                             color=GREEN, font_size=f_size).move_to([8, 3.5, 0.])
         self.play(dot.animate.move_to(ax.coords_to_point(0., y)).set_color(GREEN), Create(t_red_bis))
         self.play(Create(chart), FadeOut(dot))
@@ -86,10 +86,7 @@ class MonotonicTransformation(MovingCameraScene):
 
         self.play(all_objects.animate.move_to([0. , 0., 0.]))
 
-        #plot_new = chart.plot(lambda x: pdf_after_trans(monotonic_trans_inv(x/20. - .5)) * 0.05, x_range=[0. , 20.], use_smoothing=True, stroke_color=BLUE)
-        #self.play(Create(plot_new))
 
-        #self.play(camera.frame.animate.set(width=50))
         for j in range(10):
             dots = []
             positions_intermediate = []
